@@ -1,0 +1,111 @@
+#+title:Org Mode Full Guide
+#+description: This guide is written by Prince Gautam for his work and the stuff for learning. It will help anyone who wants to learn org mode for the first time.
+#+author: Prince Gautam
+
+* Level 1 Heading
+This is level 1 heading. this is done by asterisk and space.
+** Level 2 Heading
+This is level 2 heading. this is done by leaving two asterisks and space.
+*** Level 3 Heading
+This is level 3 heading. this is done by leaving three asterisks and space.
+
+*** /the remaining headings can be done as same procedure as explained above/
+
+* Keyboard Shortcuts
+1. Tab for folding a heading. (in the visual mode not in insert mode.)
+2. Shift + Tab for folding headings of whole file.
+
+*** /pressing the above keys twice in the visual mode will revert the process and unfold the previously folded org document./
+
+* Ordered and unordered lists
+** Ordered Lists
+Ordered Lists can be achieved by pressing 1. (number dot then space). It will create a line starting with number 1.
+To get in order (getting number 2 line automatically,) use, ctrl and return (or enter key) as the same time to make the list in order automatically
+
+** Unordered List
+Unordered Lists can be achieved by pressing asterisk for creating a heading. and ctrl+return to get the symbol of the heading (instead of number in case of ordered lists). It will order the symbol automatically.
+
+* Toggling
+org-toggle-heading : SPC-m-h
+org-toggle-item: SPC-m-i
+
+* MOTION
+*** move left/down/up/right h/j/k/l
+*** next/previous heading gj gk / CTRL-J CTRL-K
+*** move parent/child element gh/gl
+
+* Structure Editing
+** Insert a new heading after a subtree : CTRL-return
+** promote/demote heading: M-h/l or M-LEFT/RIGHT
+** promote/demote current subtree: M-S-h/l or M-S-LEFT/RIGHT
+** move subtree list item up or down: M-j/k
+** move list up and down but not subtree: M-S-j/k
+
+* Advanced Editing (Because of evil mode)
+1. Select an element: vae
+2. delete an element: dae
+3. select a subtree: vaR
+4. delete subtree: daR
+5. yank subtree: yiR
+
+* Insert Snippets
+** SPC-i-s ---> Inserts Snippet
+** current time:Tue Jul  5 15:39:38 2022
+
+* TODO
+** Physics
+** TODO Chemistry
+** TODO Mathematics
+** TODO Coding
+** TODO English
+**** Toggle the todo state: SPC-m-t
+**** org-schedule: SPC-m-s
+SCHEDULED: <2022-07-07 Thu>
+
+*** /TODO can be removed by Shift and Left-Arrow-key/
+
+* To Create a Checkbox : - [ ] [0/0]
+- [X] eggs
+- [ ] milk
+- [ ] sugar
+
+*** /checkbox can be marked as "done" by double return on the column. and removed by the same procedure. put "[/]" to measure how many Checkboxes are done. put "[%]" to measure the checkboxes completed ratio in percentage. :)/
+
+* ORG-AGENDA
+/Org Agenda is a Program that helps us to put the working org file to put in front page of doom emacs./
+
+** Move this file to front of the agenda: C-c-[
+** Org-agenda: SPC-o-a
+
+* TABLES
+*** Creating a table
+    * Just start typing | Name | Phone | Age |
+   |        Roll no | Name   | class |
+   | 43543845345435 | Prince | 12thA |
+   | 59676456745697 | Varun  | 12thB |
+   | 35849584395843 | Kaalia | 12thA |
+   | 45834590834955 | Denshi | 12thC |
+   | 45893495843953 | Olivia | 12thA |
+   | 83459348593485 | Rohan  | 12thA |
+   | 83459843593845 | John   | 12thY |
+   | 45834584395854 | Dick   | 12thR |
+
+** Go to forward or backward by cell: TAB,S-TAB
+** Make org-table headline: SPC m b -
+** Duplicate a field in the cell above - S-Return
+
+**** /Notes :- Always start with | symbol. otherwise lisp will not detect that you are making a table. And ctrl+return only works during Visual mode./
+
+*** TABLE MOTION
+1. Move Current row UP: M-K
+2. Move Current row DOWN: M-j
+3. Move Current column left: M-h
+4. Move Current column right: M-l
+5. Insert New Column: M-S-l
+6. Delete current colum: M-S-h
+7. Insert row new: M-S-j
+8. Delete current row: M-S-k
+
+
+* Conclusion
+This org file is for the newbies to org mode of doom emacs. It covered all the Important Basics to get your foot in the world of doom emacs. I will keep updating the list for future purposes.
