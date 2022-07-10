@@ -4,9 +4,9 @@ This mode is helpful in note taking and maintaining proper record of your notes.
 
 This repository is for maintaining my org files created by doom emacs. 
 Files included in this repository are:
-
-a.\basics.org - Basics of Doom Emacs org mode.
-b.\archinstall.org - Full Guide for Arch Linux Installation.
+<ul>
+<li>basics.org - Basics of Doom Emacs org mode.</li>
+<li>archinstall.org - Full Guide for Arch Linux Installation. </li>
 
 New files will be added soon.
 
