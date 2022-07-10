@@ -1,0 +1,152 @@
+#+title: Arch Linux Installation Guide
+#+description: This document contains step-by-step procedures to get a fresh install on a machine. Effective from 2022.
+#+author: Prince Gautam
+
+* Preparation
+** Checking if the internet is working or not
+ping -c 3 www.google.com
+** Connecting to the Wifi
+iwctl
+**** /getting the wireless device name (for example:- wlan0 or something)/
+device list
+**** /rescan the networks (this command will not have any output)/
+station <device> scan
+**** /listing all available networks/
+station <device> get-networks
+**** /connecting to a wifi network/
+station <device> connect <SSID>
+/if password is required, you can give the passphrase in the command itself. note:- run this command in normal arch linux shell, not in iwctl shell./
+*# iwctl --passphrase <password> station <device> connect <network SSID>*
+
+/to get back to arch linux shell from the iwctl, press ctrl+D/
+
+* Formatting the Disk
+** Listing block devices connected to the computer
+lsblk
+** Using gdisk
+gdisk /dev/sda
+/you should put the drive name instead of /dev/sda in which you want to install Arch Linux, in this example, we will use /dev/sda./
+** Creating Partitions
+n : to make new partitions
+w : write the changes to the disk
+o : delete/format the partition table
+
+**** EFI System partition
+partition number: default
+first sector: default
+Last sector: +350M
+Partition type: ef00
+
+**** Linux swap
+partition number: default
+first sector: default
+Last sector: +10G
+Partition type: 8200
+
+**** Linux root
+partition number: default
+first sector: default
+Last sector: /size you want your root partition should be/
+Partition type: 8300 or default
+
+**** Linux home
+partition number: default
+first sector: default
+last sector: /just press enter, it will take remaining size of your disk into this new partition/
+Partition type: 8300 or default
+
+** Making File systems
+mkfs.ext4 /dev/root_partition
+mkswap /dev/swap_partition
+mkfs.fat -F 32 /dev/efi_system_partition
+mkfs.ext4 /dev/home_partition
+
+* Mounting Partitions
+mount /dev/root_partition /mnt
+mkdir -p /mnt/boot/efi
+mkdir -p /mnt/home
+mount /dev/efi_system_partition /mnt/boot/efi
+swapon /dev/swap_partition
+mount /dev/home_partition /mnt/home
+
+* Downloading Base Packages
+pacstrap /mnt base linux linux-firmware vim git intel-ucode
+
+* Configuring FSTAB
+genfstab -U /mnt >> /mnt/etc/fstab
+**** /should always check the fstab file if its created or not/
+cat /mnt/etc/fstab
+
+* Arch Chroot
+arch-chroot /mnt
+
+* Configuring the installed system
+** Setting the time zone and date
+ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
+*** /should check the date by this command/
+date
+** syncing the time to hardware clock
+hwclock --systohc
+
+** Locale
+vim /etc/locale.gen
+**** /uncomment the en_US.UTF-8 UTF-8 and generate the locale again/
+locale-gen
+** creating locale.conf
+echo "LANG=en_US.UTF-8" >> /etc/locale.conf
+
+* Hosts & Hostname
+echo "arch" >> /etc/hostname
+
+** Edit /etc/hosts file
+vim /etc/hosts
+
+** /This text should be in the hosts file/
+127.0.0.1(tab key)localhost
+::1(tab key)localhost
+127.0.1.1(tab key)arch.localdomain(tabkey)arch
+
+* Users
+** Adding a new user
+useradd -m prince
+** Adding user to wheel group
+usermod -aG wheel prince
+
+** password
+*** root password
+passwd
+*** Password for a specific user
+passwd <user>
+
+* Sudoers file
+EDITOR=vim visudo
+**** /uncomment %wheel ALL=(ALL) ALL line to allow users of the wheel group to execute any command with root prevalages/
+
+
+* Installing neccessary Packages in chroot
+pacman -S grub efibootmgr networkmanager network-manager-applet wpa_supplicant base-devel linux-headers bluez bluez-utils cups pulseaudio alsa-utils pavucontrol
+
+* GRUB (for efi only)
+grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=GRUB
+** creating grub configuration file
+grub-mkconfig -o /boot/grub/grub.cfg
+
+* Problems Faced
+---> visudo file not found.
+Ans. you have not correctly installed base-devel package in your system. install it first. or you can install sudo package alone from the Arch Linux user repository.
+
+---> package signing or integrity issue when installing packages.
+Ans. the latest arch linux keyring is missing. you can install it by pacman -Sy archlinux-keyring.
+
+* Post Installation
+** Enabling startup for some software in systemd
+systemctl enable NetworkManager
+systemctl enable bluetooth
+systemctl enable cups
+**** /after doing all the work, you can exit the arch-chroot by simply exit/
+
+** Unmounting the mounted partitions
+umount -R /mnt
+
+** Reboot the machine
+reboot
