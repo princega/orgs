@@ -7,7 +7,7 @@ Files included in this repository are:
 <ul>
 <li>basics.org - Basics of Doom Emacs org mode.</li>
 <li>archinstall.org - Full Guide for Arch Linux Installation. </li>
-
+</ul>
 New files will be added soon.
 
 
